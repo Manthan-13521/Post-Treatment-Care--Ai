@@ -1,0 +1,2 @@
+"use client";
+export default function Error(){return <section className="card"><p className="eyebrow">CareShield is still protecting your data</p><h1>We could not load this view.</h1><p className="muted">Your request was not completed. Check your connection and try again; for urgent medical help, use your local emergency service.</p><button onClick={()=>location.reload()}>Try again</button></section>}

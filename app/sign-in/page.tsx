@@ -1,0 +1,3 @@
+"use client";
+import { signIn } from "next-auth/react";
+export default function SignInPage() { const demo=async(role:string)=>{await signIn("demo",{role,redirectTo:"/dashboard"});}; return <section className="card"><p className="eyebrow">SECURE ACCESS</p><h1>Welcome to CareShield</h1><button onClick={()=>signIn("google",{redirectTo:"/dashboard"})}>Continue with Google</button><p className="muted">Demo access is development-only.</p><div>{["PATIENT","GUARDIAN","DOCTOR","HOSPITAL_ADMIN"].map(role=><button key={role} onClick={()=>demo(role)} style={{marginRight:8,marginBottom:8}}>{`Demo ${role.replace("_"," ")}`}</button>)}</div></section>; }

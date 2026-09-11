@@ -1,0 +1,2 @@
+import { NextResponse } from "next/server"; import { deploymentReadiness } from "@/lib/env";
+export function GET(){const readiness=deploymentReadiness();return NextResponse.json({status:readiness.ready?"ready":"configuration-required",release:readiness.releaseReady?"ready":"external-provider-configuration-required",services:{mongo:readiness.mongo,authSecret:readiness.authSecret,google:readiness.google,metaWhatsApp:readiness.metaWhatsApp,metaWebhook:readiness.metaWebhook}},{status:readiness.ready?200:503});}

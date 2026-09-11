@@ -1,0 +1,1 @@
+import {describe,it,expect}from"vitest";import{shouldEscalate}from"@/lib/emergency-policy";describe("no-ack escalation",()=>{it("escalates only overdue open incidents",()=>{expect(shouldEscalate({state:"OPEN",createdAt:new Date(Date.now()-301000)})).toBe(true);expect(shouldEscalate({state:"ACKNOWLEDGED",createdAt:new Date(Date.now()-999999)})).toBe(false);})});

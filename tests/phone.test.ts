@@ -1,0 +1,2 @@
+import { describe,expect,it } from "vitest"; import { normalizeE164,otpHash } from "@/lib/phone";
+describe("phone security",()=>{it("accepts E.164 numbers",()=>expect(normalizeE164("+91 98765 43210")).toBe("+919876543210"));it("rejects non-E.164 input",()=>expect(()=>normalizeE164("9876543210")).toThrow());it("does not retain a plaintext OTP",()=>expect(otpHash("123456")).not.toContain("123456"));});

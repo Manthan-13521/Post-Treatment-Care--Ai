@@ -1,0 +1,1 @@
+export interface AmbulanceProvider { request(input:{incidentId:string;patientId:string}):Promise<{reference:string}> } export const demoAmbulanceProvider:AmbulanceProvider={async request(input){return {reference:`DEMO-AMB-${input.incidentId.slice(-8)}`};}};

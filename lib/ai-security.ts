@@ -1,0 +1,9 @@
+import crypto from "crypto";
+export type SecurityDecision={decision:"ALLOW"|"BLOCK"|"REVIEW";categories:string[]};
+const injection=[/ignore (all |previous |prior )?instructions/i,/system prompt/i,/developer message/i,/reveal .*?(secret|token|password|key)/i,/act as (?!a patient)/i,/\b(jailbreak|dan mode)\b/i,/tool[_ -]?(call|use).*?(emergency|delete|transfer)/i];
+const exfiltration=[/https?:\/\//i,/base64[, :]/i,/\b(send|upload|export)\b.*\b(record|data|patient|database)\b/i];
+export function hashAiContent(value:string){return crypto.createHash("sha256").update(value).digest("hex");}
+export function scanAiContent(value:string):SecurityDecision{const categories=[...(injection.some(x=>x.test(value))?["PROMPT_INJECTION"]:[]),...(exfiltration.some(x=>x.test(value))?["DATA_EXFILTRATION"]:[])];if(categories.length)return {decision:"BLOCK",categories};if(value.length>1500||/[\x00-\x08\x0B\x0C\x0E-\x1F]/.test(value))return {decision:"REVIEW",categories:["MALFORMED_OR_OVERSIZED"]};return {decision:"ALLOW",categories:[]};}
+const tools={COMPANION:["getCareSummary","getMedicationSchedule","getNextAppointment","getMonitoringSummary"],COPILOT:["draftClinicalSummary"],APPOINTMENT:["searchRealAppointmentSlots"]} as const;
+export function enforceToolFirewall(surface:keyof typeof tools,tool:string,consequential=false){if(consequential)return {allowed:false,reason:"Consequential actions require an explicit non-AI patient request."};if(!tools[surface].includes(tool as never))return {allowed:false,reason:"Tool is not allowlisted for this AI surface."};return {allowed:true,reason:"Allowlisted read-only tool."};}
+export function safeAiOutput(value:string){const scan=scanAiContent(value);return scan.decision==="ALLOW"?{output:value,...scan}:{output:"I can’t provide that response. Please use the approved care workspace or contact your care team.",...scan};}

@@ -1,0 +1,1 @@
+export interface WhatsAppProvider{send(input:{recipient:string;incidentId:string}):Promise<{reference:string}>} export const demoWhatsAppProvider:WhatsAppProvider={async send(x){return {reference:`DEMO-WA-${x.incidentId.slice(-8)}`}}};

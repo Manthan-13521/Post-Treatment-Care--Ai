@@ -1,0 +1,36 @@
+{
+  "name": "careshield-ai",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "migrate": "tsx scripts/migrate.ts",
+    "seed": "tsx scripts/seed.ts",
+    "demo:seed": "CARESHIELD_SEED_DEMO=true tsx scripts/seed.ts"
+  },
+  "dependencies": {
+    "next": "15.5.25",
+    "next-auth": "5.0.0-beta.32",
+    "mongoose": "9.10.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "zod": "3.24.2",
+    "postcss": "8.5.28"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "3.3.1",
+    "@types/node": "22.13.10",
+    "@types/react": "19.0.10",
+    "@types/react-dom": "19.0.4",
+    "eslint": "9.22.0",
+    "eslint-config-next": "15.2.4",
+    "typescript": "5.8.2",
+    "vitest": "3.0.8",
+    "tsx": "4.20.6"
+  }
+}

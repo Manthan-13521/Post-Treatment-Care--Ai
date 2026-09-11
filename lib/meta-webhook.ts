@@ -1,0 +1,2 @@
+import crypto from "crypto";
+export function validMetaSignature(raw:string,signature:string|null,appSecret:string|undefined){if(!signature||!appSecret||!signature.startsWith("sha256="))return false;const expected=crypto.createHmac("sha256",appSecret).update(raw).digest("hex");const provided=signature.slice(7);return provided.length===expected.length&&crypto.timingSafeEqual(Buffer.from(provided),Buffer.from(expected));}

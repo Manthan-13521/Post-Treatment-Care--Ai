@@ -1,0 +1,2 @@
+import { NextResponse } from "next/server"; import { requireActor } from "@/lib/session"; import { authorize } from "@/lib/authorization";
+export async function GET(_request:Request,{params}:{params:Promise<{patientId:string}>}){try{const actor=await requireActor();const {patientId}=await params;const result=await authorize({actor,action:"PATIENT_IDENTITY_READ",patientId});return NextResponse.json({patientId,organizationId:result.organizationId});}catch{return NextResponse.json({error:"Forbidden"},{status:403});}}
