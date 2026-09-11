@@ -28,6 +28,12 @@ Use `/demo` for the judge walkthrough:
 
 `/demo/patient` is the public no-sign-up patient workspace. It uses only embedded fictional data and never calls a patient-record API, sends a provider notification, or creates a booking. The real product requires Google sign-in and patient-scoped authorization.
 
+`/demo/video-care` is a public video-care and AI-chat demonstration. The optional camera/microphone preview remains local to the browser; no clinician is connected and no data is transmitted. A real video room needs an authenticated appointment and configured video provider.
+
+## Emergency WhatsApp alerts
+
+An authorized doctor or hospital administrator can open an active incident in `/war-room` and select **Send configured WhatsApp alerts**. The route sends only to recipients with a verified phone number and an active WhatsApp notification preference, retains idempotency per incident/recipient, and records provider attempts, audit evidence, and an incident-timeline event. It rejects resolved incidents and never falls back to fake delivery in production. Configure `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, and an approved `WHATSAPP_EMERGENCY_TEMPLATE` before using it.
+
 The demo does not claim live provider delivery when credentials are absent. Development-only demo login is enabled only with `CARESHIELD_DEMO_MODE=true` and is denied in production.
 
 ## Provider release checklist

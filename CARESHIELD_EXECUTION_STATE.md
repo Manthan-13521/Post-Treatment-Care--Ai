@@ -138,6 +138,11 @@ The original Phase 11–14 roadmap is intentionally compressed into two user-aut
 - Added `/demo/patient`, an interactive, no-sign-up public patient demonstration using only fictional embedded data. It intentionally makes no API calls and cannot read/write patient data, send notifications, or book care.
 - Production sign-in now links to the no-sign-up demo instead of presenting unavailable demo credentials. Secure real records continue to require configured Google OAuth and patient-scoped authorization.
 
+## Post-release video and emergency-alert surfaces
+
+- Added `/demo/video-care`, a public, fictional AI/video-care demonstration with optional browser-local camera/microphone preview and bounded safe AI chat. It never represents a connected doctor, clinical consultation, or real data transmission.
+- Added an authorized active-incident notification dispatch route and War Room action. Only doctors/admins with patient access can use it; it sends through the configured WhatsApp provider to verified, opted-in recipients and persists outcomes/audit/timeline evidence. Resolved incidents are denied.
+
 **Conditionally release-ready.** The repository passes static, test, lint, and production-build validation, and has a documented/demo-safe fallback. Production traffic should be enabled only after the README provider checklist is completed and `/api/health` reports both core `ready` and external-provider `release: ready`.
 
 No further roadmap phase remains in the compressed plan.

@@ -1,0 +1,2 @@
+import { describe,expect,it } from "vitest"; import fs from "node:fs"; import path from "node:path";
+describe("public video-care demo",()=>{it("labels itself as fictional and keeps local preview separate from clinical care",()=>{const source=fs.readFileSync(path.join(process.cwd(),"app/demo/video-care/page.tsx"),"utf8");expect(source).toContain("fictional no-sign-up demonstration");expect(source).toContain("No video leaves this device in demo mode");expect(source).toContain("not a diagnosis");expect(source).not.toContain("fetch(")});});
