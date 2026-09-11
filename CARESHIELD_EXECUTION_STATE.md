@@ -126,6 +126,13 @@ The original Phase 11–14 roadmap is intentionally compressed into two user-aut
 - `npm run lint` — passed.
 - `npm run build` — passed.
 
+## Post-release authentication repair
+
+- Fixed the Auth.js `Configuration` failure caused by registering Google OAuth when `AUTH_GOOGLE_ID`/`AUTH_GOOGLE_SECRET` were absent. Google is now registered only when both values exist.
+- The production sign-in page now reports missing `AUTH_SECRET`, `AUTH_GOOGLE_ID`, and `AUTH_GOOGLE_SECRET` in clear non-secret terms instead of offering a failing OAuth button. It documents the exact production callback URL.
+- Removed the misleading production demo-persona login buttons: demo credentials remain explicit non-production-only behavior, while production offers the public guided `/demo` tour until Google OAuth is configured. Database-backed demo identities still require a configured MongoDB connection in development.
+- Added authentication configuration tests. Full validation after this repair: 16 test files, 62 tests; typecheck, lint, and production build passed.
+
 **Conditionally release-ready.** The repository passes static, test, lint, and production-build validation, and has a documented/demo-safe fallback. Production traffic should be enabled only after the README provider checklist is completed and `/api/health` reports both core `ready` and external-provider `release: ready`.
 
 No further roadmap phase remains in the compressed plan.
