@@ -109,6 +109,23 @@ The original Phase 11–14 roadmap is intentionally compressed into two user-aut
 
 ## Final release verdict
 
+## Post-release configuration update — WhatsApp Cloud API
+
+- Canonical outbound credential names are now `WHATSAPP_ACCESS_TOKEN` and `WHATSAPP_PHONE_NUMBER_ID`; `WHATSAPP_BUSINESS_ACCOUNT_ID` is retained as optional account metadata and is not required for the Graph `/messages` endpoint.
+- `WHATSAPP_API_VERSION` is configurable and defaults to the documented compatibility version `v22.0`; `WHATSAPP_EMERGENCY_TEMPLATE` defaults to `careshield_emergency`.
+- All obsolete `META_WHATSAPP_*` and `META_WEBHOOK_VERIFY_TOKEN` production configuration references were removed. Legacy names are deliberately not read, avoiding duplicate configuration paths.
+- Live outbound sends use the Meta Graph API through `MetaWhatsAppProvider`. Demo sending requires explicit non-production `CARESHIELD_DEMO_MODE=true`; production without live credentials uses an unavailable provider and records a failed notification attempt rather than fabricating success.
+- Signed inbound webhook verification remains separate: `WHATSAPP_WEBHOOK_VERIFY_TOKEN` and `META_APP_SECRET` are both required. The webhook fails closed with a clear 503 configuration error until they are present.
+- Provider errors are sanitized before persistence; access tokens, app secrets, verification secrets, authorization headers, and raw provider responses are not logged or stored.
+- `.env.example` and `README.md` now distinguish outbound delivery, optional WABA metadata, webhook/callback verification, Graph version/template configuration, and demo behavior.
+
+## Validation update
+
+- `npm run typecheck` — passed.
+- `npm test` — passed: 15 files, 60 tests.
+- `npm run lint` — passed.
+- `npm run build` — passed.
+
 **Conditionally release-ready.** The repository passes static, test, lint, and production-build validation, and has a documented/demo-safe fallback. Production traffic should be enabled only after the README provider checklist is completed and `/api/health` reports both core `ready` and external-provider `release: ready`.
 
 No further roadmap phase remains in the compressed plan.

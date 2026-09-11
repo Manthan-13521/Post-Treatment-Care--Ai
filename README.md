@@ -4,7 +4,7 @@ CareShield AI is a Zero-Trust remote patient recovery platform built with Next.j
 
 ## Release status
 
-The application is production-build validated. A final production deployment remains dependent on real MongoDB Atlas, Google OAuth, Meta WhatsApp, Meta webhook, and (when medicine capture is enabled) vision-provider credentials. `/api/health` reports non-secret readiness signals and distinguishes core runtime readiness from complete external-provider release readiness.
+The application is production-build validated. A final production deployment remains dependent on real MongoDB Atlas, Google OAuth, WhatsApp Cloud API outbound credentials, signed WhatsApp webhook credentials, and (when medicine capture is enabled) vision-provider credentials. `/api/health` reports non-secret readiness signals and distinguishes core runtime readiness from complete external-provider release readiness.
 
 ## Local setup
 
@@ -30,10 +30,12 @@ The demo does not claim live provider delivery when credentials are absent. Deve
 
 ## Provider release checklist
 
-- **Vercel:** set `MONGODB_URI`, `AUTH_SECRET`, `AUTH_URL`, Google credentials, Meta credentials, webhook verify token, and Meta app secret in encrypted project environment variables.
+- **Vercel:** set `MONGODB_URI`, `AUTH_SECRET`, `AUTH_URL`, Google credentials, `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID`, and signed-webhook credentials in encrypted project environment variables.
 - **MongoDB Atlas:** allow Vercel connectivity, create a least-privilege application user, and run `npm run migrate` once per environment.
 - **Google OAuth:** register the production callback URL at `/api/auth/callback/google`; do not enable dangerous email account linking.
-- **Meta WhatsApp:** configure a production phone-number ID/template and point the signed webhook to `/api/webhooks/meta`. The endpoint verifies the `x-hub-signature-256` HMAC before parsing JSON and supports Meta subscription verification.
+- **WhatsApp outbound:** `WHATSAPP_ACCESS_TOKEN` and `WHATSAPP_PHONE_NUMBER_ID` are mandatory for live `/messages` delivery through the official Meta Graph API. `WHATSAPP_BUSINESS_ACCOUNT_ID` is available for WABA/account APIs but is not required for outbound delivery. `WHATSAPP_API_VERSION` selects the Graph version; its documented compatibility default is `v22.0`. `WHATSAPP_EMERGENCY_TEMPLATE` identifies the approved emergency template and defaults to `careshield_emergency`.
+- **WhatsApp webhooks:** point the signed webhook to `/api/webhooks/meta`. `WHATSAPP_WEBHOOK_VERIFY_TOKEN` and `META_APP_SECRET` are mandatory for subscription verification and signed inbound delivery/status callbacks. The endpoint fails closed when either is absent and validates `x-hub-signature-256` before parsing JSON.
+- **Demo mode:** development-only `CARESHIELD_DEMO_MODE=true` enables the explicit demo WhatsApp provider when live credentials are absent. Production never falls back to fake delivery; a missing live configuration is persisted as a provider failure.
 - **Vision:** set `MEDICINE_VISION_ENDPOINT` and `MEDICINE_VISION_API_KEY` for production label extraction. Without them, production capture refuses safely.
 
 ## Safety and security boundaries
