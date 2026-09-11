@@ -26,6 +26,8 @@ Use `/demo` for the judge walkthrough:
 4. Zero-Trust AI scanner and Security Command Center
 5. Deterministic Emergency War Room
 
+`/demo/patient` is the public no-sign-up patient workspace. It uses only embedded fictional data and never calls a patient-record API, sends a provider notification, or creates a booking. The real product requires Google sign-in and patient-scoped authorization.
+
 The demo does not claim live provider delivery when credentials are absent. Development-only demo login is enabled only with `CARESHIELD_DEMO_MODE=true` and is denied in production.
 
 ## Provider release checklist

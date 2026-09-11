@@ -133,6 +133,11 @@ The original Phase 11–14 roadmap is intentionally compressed into two user-aut
 - Removed the misleading production demo-persona login buttons: demo credentials remain explicit non-production-only behavior, while production offers the public guided `/demo` tour until Google OAuth is configured. Database-backed demo identities still require a configured MongoDB connection in development.
 - Added authentication configuration tests. Full validation after this repair: 16 test files, 62 tests; typecheck, lint, and production build passed.
 
+## Post-release public demo repair
+
+- Added `/demo/patient`, an interactive, no-sign-up public patient demonstration using only fictional embedded data. It intentionally makes no API calls and cannot read/write patient data, send notifications, or book care.
+- Production sign-in now links to the no-sign-up demo instead of presenting unavailable demo credentials. Secure real records continue to require configured Google OAuth and patient-scoped authorization.
+
 **Conditionally release-ready.** The repository passes static, test, lint, and production-build validation, and has a documented/demo-safe fallback. Production traffic should be enabled only after the README provider checklist is completed and `/api/health` reports both core `ready` and external-provider `release: ready`.
 
 No further roadmap phase remains in the compressed plan.

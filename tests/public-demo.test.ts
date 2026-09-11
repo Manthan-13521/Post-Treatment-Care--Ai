@@ -1,0 +1,2 @@
+import { describe,expect,it } from "vitest"; import fs from "node:fs"; import path from "node:path";
+describe("public no-sign-up demo",()=>{it("uses embedded fictional content and does not call protected APIs",()=>{const source=fs.readFileSync(path.join(process.cwd(),"app/demo/patient/page.tsx"),"utf8");expect(source).toContain("FICTIONAL DATA");expect(source).not.toContain("fetch(");expect(source).toContain("does not connect to real patient records")});});
